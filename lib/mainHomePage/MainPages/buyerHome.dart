@@ -91,7 +91,9 @@ class Category extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Route route = MaterialPageRoute(builder: (c) => StoreHome(
+              passedTitle: 'Vegetables',
+            ));
             Navigator.pushReplacement(context, route);
           },
           child: Container(
@@ -99,47 +101,15 @@ class Category extends StatelessWidget {
             width: 200,
             child: Center(
                 child: Container(
-                    height: 40,
-                    width: 120,
-                    color: Colors.black.withOpacity(0.5),
+                    height: 50,
+                    width: 150,
+                    color: Colors.black.withOpacity(0.2),
                     child: Center(
                         child: Text(
                           "Vegetables",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )))),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/Catagory/fruits.jpg"),
-                  fit: BoxFit.cover,
-                )),
-          ),
-        ),
-        SizedBox(
-          width: 10.0,
-        ),
-        GestureDetector(
-          onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => StoreHome());
-            Navigator.pushReplacement(context, route);
-          },
-          child: Container(
-            height: 200,
-            width: 200,
-            child: Center(
-                child: Container(
-                    height: 40,
-                    width: 120,
-                    color: Colors.black.withOpacity(0.5),
-                    child: Center(
-                        child: Text(
-                          "Fruits",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold),
                         )))),
             decoration: BoxDecoration(
@@ -155,7 +125,9 @@ class Category extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Route route = MaterialPageRoute(builder: (c) => StoreHome(
+              passedTitle: 'Fruits',
+            ));
             Navigator.pushReplacement(context, route);
           },
           child: Container(
@@ -163,15 +135,49 @@ class Category extends StatelessWidget {
             width: 200,
             child: Center(
                 child: Container(
-                    height: 40,
-                    width: 160,
-                    color: Colors.black.withOpacity(0.5),
+                    height: 550,
+                    width: 150,
+                    color: Colors.black.withOpacity(0.2),
                     child: Center(
                         child: Text(
-                          "Sesonal Fruits",
+                          "Fruits",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )))),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/Catagory/fruits.jpg"),
+                  fit: BoxFit.cover,
+                )),
+          ),
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        GestureDetector(
+          onTap: () {
+            Route route = MaterialPageRoute(builder: (c) => StoreHome(
+              passedTitle: 'Seasonal Fruits',
+            ));
+            Navigator.pushReplacement(context, route);
+          },
+          child: Container(
+            height: 200,
+            width: 200,
+            child: Center(
+                child: Container(
+                    height: 60,
+                    width: 160,
+                    color: Colors.black.withOpacity(0.2),
+                    child: Center(
+                        child: Text(
+                          "Seasonal Fruits",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold),
                         )))),
             decoration: BoxDecoration(
@@ -187,7 +193,9 @@ class Category extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Route route = MaterialPageRoute(builder: (c) => StoreHome(
+              passedTitle: 'Seasonal Vegetables',
+            ));
             Navigator.pushReplacement(context, route);
           },
           child: Container(
@@ -195,15 +203,15 @@ class Category extends StatelessWidget {
             width: 200,
             child: Center(
                 child: Container(
-                    height: 40,
+                    height: 60,
                     width: 160,
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withOpacity(0.2),
                     child: Center(
                         child: Text(
-                          "Sesonal Vegi",
+                          "Sesonal Vegetables",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold),
                         )))),
             decoration: BoxDecoration(
@@ -219,7 +227,9 @@ class Category extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Route route = MaterialPageRoute(builder: (c) => StoreHome(
+              passedTitle: 'Seeds',
+            ));
             Navigator.pushReplacement(context, route);
           },
           child: Container(
@@ -227,15 +237,15 @@ class Category extends StatelessWidget {
             width: 200,
             child: Center(
                 child: Container(
-                    height: 40,
-                    width: 100,
-                    color: Colors.black.withOpacity(0.5),
+                    height: 50,
+                    width: 120,
+                    color: Colors.black.withOpacity(0.2),
                     child: Center(
                         child: Text(
                       "Seeds",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold),
                     )))),
             decoration: BoxDecoration(

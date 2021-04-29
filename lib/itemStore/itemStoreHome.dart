@@ -4,6 +4,7 @@ import 'package:e_shop/Store/product_page.dart';
 import 'package:e_shop/Counters/cartitemcounter.dart';
 import 'package:e_shop/Widgets/customAppBar.dart';
 import 'package:e_shop/Widgets/loadingWidget.dart';
+import 'package:e_shop/mainHomePage/MainPages/buyerHome.dart';
 import 'package:e_shop/Widgets/myDrawer.dart';
 import 'package:e_shop/Widgets/searchBox.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,10 @@ import 'package:e_shop/Config/config.dart';
 double width;
 
 class StoreHome extends StatefulWidget {
+  final String passedTitle;
+  const StoreHome(
+      {Key key, this.passedTitle}) 
+      : super(key: key); 
   @override
   _StoreHomeState createState() => _StoreHomeState();
 }
@@ -25,7 +30,39 @@ class _StoreHomeState extends State<StoreHome> {
     width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-       appBar: MyAppBar(),
+       appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+              flexibleSpace: Container(
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                    colors: [Colors.green[900], Colors.lightGreenAccent[700]],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp,
+                  ),
+                ),
+              ),
+              centerTitle: true,
+              title: Text(
+                '${widget.passedTitle}',
+                style: TextStyle(
+                    fontSize: 40.0, color: Colors.white, fontFamily: "Signatra"),
+              ),
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: (){
+                    Route route =MaterialPageRoute(builder: (c)=>buyerHome());
+                    Navigator.pushReplacement(context, route);
+                  },
+
+            ),
+            ),
         drawer: MyDrawer(),
         body: CustomScrollView(
           slivers: [
@@ -33,6 +70,7 @@ class _StoreHomeState extends State<StoreHome> {
             StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance
                   .collection("items")
+                  .where("title", isEqualTo: '${widget.passedTitle}')
                   .limit(15)
                   .orderBy(
                 "publishedDate",
@@ -143,7 +181,7 @@ Widget sourceInfo(ItemModel model, BuildContext context,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "54%",
+                                  "50%",
                                   style: TextStyle(
                                       fontSize: 15.0,
                                       color: Colors.white,
@@ -171,7 +209,7 @@ Widget sourceInfo(ItemModel model, BuildContext context,
                               child: Row(
                                 children: [
                                   Text(
-                                    r"Original Price: Rs ",
+                                    "Original Price: Rs ",
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.grey,
@@ -197,7 +235,7 @@ Widget sourceInfo(ItemModel model, BuildContext context,
                                         fontSize: 14.0, color: Colors.grey),
                                   ),
                                   Text(
-                                    "Rs ",
+                                    "Rs: ",
                                     style: TextStyle(
                                         color: Colors.red, fontSize: 16.0),
                                   ),

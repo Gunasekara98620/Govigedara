@@ -35,7 +35,7 @@ class AddAddress extends StatelessWidget {
               ),
               centerTitle: true,
               title: Text(
-                "govigedara",
+                "Govigedara",
                 style: TextStyle(
                     fontSize: 55.0, color: Colors.white, fontFamily: "Signatra"),
               ),

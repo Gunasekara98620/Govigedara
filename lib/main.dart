@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop/Counters/ItemQuantity.dart';
@@ -5,14 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'AddOrdersSystem/orderOperations/add_order.dart';
-import 'AddOrdersSystem/orderOperations/home.dart';
 import 'Authentication/authenication.dart';
 import 'package:e_shop/Config/config.dart';
 import 'Counters/cartitemcounter.dart';
 import 'Counters/changeAddresss.dart';
 import 'Counters/totalMoney.dart';
-import 'Store/storehome.dart';
 import 'mainHomePage/mainHomePage.dart';
 
 Future<void> main() async {
@@ -57,13 +55,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     displaySplash();
   }
 
   displaySplash() {
-    Timer(Duration(seconds: 5), () async {
+    Timer(Duration(seconds: 2), () async {
       if (await EcommerceApp.auth.currentUser() != null) {
         Route route = MaterialPageRoute(builder: (_) => MainHomePage());
         Navigator.pushReplacement(context, route);

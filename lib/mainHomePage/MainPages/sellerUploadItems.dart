@@ -15,7 +15,8 @@ class UploadPage extends StatefulWidget
 class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMixin<UploadPage>
 {
 
-final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
   List<String> _accountType = <String>[
     'Vegetables',
     'Fruits',
@@ -28,22 +29,21 @@ final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
   File file;
   TextEditingController _descriptionTextEdditingController = TextEditingController();
   TextEditingController _priceTextEdditingController = TextEditingController();
-  TextEditingController _titleTextEdditingController = TextEditingController();
-   String  selectedType;  //for categeory
+  String  selectedType;  //for categeory
   TextEditingController _shortInfoTextEdditingController = TextEditingController();
   String productId = DateTime.now().microsecondsSinceEpoch.toString();
- 
   TextEditingController  _quentityTextEdditingController=TextEditingController();
   TextEditingController  _nearestTownTextEdditingController=TextEditingController();
   TextEditingController _addressTownTextEdditingController=TextEditingController();
   TextEditingController _contactNoTextEdditingController=TextEditingController();
 
-   bool uploading =false;
-
+    bool uploading =false;
+  
   @override
   Widget build(BuildContext context) {
     return file ==null ? displayAdminHomeScreen():displayAdminUploadFormScreen();
   }
+
   displayAdminHomeScreen(){
     return Scaffold(
       body: getAdminHomeScreenBody(),
@@ -123,6 +123,8 @@ final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
       file = imageFile;
     });
   }
+
+
   displayAdminUploadFormScreen() {
     return Scaffold(
       appBar: AppBar(
@@ -144,225 +146,260 @@ final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
         ),
         actions: [
           Container(
-            height: 70,
-            width: 70,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border:Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(50)
-            ),
-            child: FlatButton(
-              child: Text(
-                "Add",
-                style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold),
+              height: 70,
+              width: 70,
+             decoration: BoxDecoration(
+                color: Colors.white,
+                border:Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(50)
               ),
-              onPressed: uploading ? null : () => uploadImageAndSaveItemInfo(),
-            ),
-          )
-        ],
-      ),
-      body: ListView(
-        children: [
-          uploading ? circularProgress() : Text(""),
-          Container(
-            height: 230.0,
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
+             child: FlatButton(
+               child: Text(
+                  "Add",
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                ),
+                onPressed: uploading ? null : () =>  _saveForm(), 
+       
+              ),
+            )
+          ],
+        ),
+
+
+
+        body: Form(
+          key:_formKeyValue, //assigning key to form
+          autovalidate: true,
+          child: new ListView(
+            children: <Widget>[
+              uploading ? circularProgress() : Text(""),
+              Container(
+                height: 230.0,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
                           image: FileImage(file), fit: BoxFit.cover)),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(padding: EdgeInsets.only(top: 12.0)),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
+              Padding(padding: EdgeInsets.only(top: 12.0)),
+
+
+              SizedBox(height: 20.0), //name
+              new TextFormField(
                 controller: _shortInfoTextEdditingController,
-                decoration: InputDecoration(
-                  //change short info--->Item Name
-                  hintText: "Item Name",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return '*Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter name of food item',
+                  labelText: 'Name',
                 ),
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
-                controller: _titleTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "Category",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
-                ),
+
+
+
+              SizedBox(height: 20.0), //categeory
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.category,
+                    size: 25.0,
+                    color: Colors.green[900],
+                  ),
+                  SizedBox(width: 100),
+                  DropdownButton(
+                    items: _accountType
+                        .map((value) => DropdownMenuItem(
+                              child: Text(
+                                value,
+                                style: TextStyle(color: Color(0xff11b719)),
+                              ),
+                              value: value,
+                            ))
+                        .toList(),
+                    onChanged: (selectedCategoryType) {
+                      print('$selectedCategoryType');
+                      setState(() {
+                        selectedType = selectedCategoryType;
+                      });
+                    },
+                    value: selectedType,
+                    isExpanded: false,
+                    hint: Text(
+                      'Select a Category',
+                      style: TextStyle(color: Color(0xff11b719)),
+                    ),
+                  )
+                ],
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
+
+
+              SizedBox(height: 20.0), //description
+              new TextFormField(
                 controller: _descriptionTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "Description",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return '*Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter short Description',
+                  labelText: 'Description',
                 ),
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                style: TextStyle(color: Colors.deepPurpleAccent),
+
+
+              SizedBox(height: 20.0), //quentity
+              new TextFormField(
                 controller: _quentityTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "Quentity(Kg)",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return '*Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'The Quentity you can supply',
+                  labelText: 'Quentity',
                 ),
+                keyboardType: TextInputType.number
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                style: TextStyle(color: Colors.deepPurpleAccent),
+
+
+              SizedBox(height: 20.0), //price
+              new TextFormField(
                 controller: _priceTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "price(1 Kg)",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: ( value) {
+                        if (value.isEmpty) {
+                          return '*Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter Price of 1Kg',
+                  labelText: 'Price',
                 ),
+                keyboardType: TextInputType.number
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
+
+
+              SizedBox(height: 20.0), //town
+              new TextFormField(
                 controller: _nearestTownTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "Nearest Town",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return '*Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter your Nearest Town',
+                  labelText: 'Nearest Town',
                 ),
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
+              
+              
+              SizedBox(height: 20.0), //address
+              new TextFormField(
                 controller: _addressTownTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "Address",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter Address of Marcketplace',
+                  labelText: 'Address',
                 ),
               ),
-            ),
-          ),
-          Divider(
-            color: Colors.green[700],
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.perm_device_information,
-              color: Colors.green[900],
-            ),
-            title: Container(
-              width: 250.0,
-              child: TextField(
-                style: TextStyle(color: Colors.deepPurpleAccent),
+
+
+               SizedBox(height: 20.0), //contact
+              new TextFormField(
                 controller: _contactNoTextEdditingController,
-                decoration: InputDecoration(
-                  hintText: "ContactNo",
-                  hintStyle: TextStyle(color: Colors.green),
-                  border: InputBorder.none,
+                 validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Required';
+                        }
+                 },
+                decoration: const InputDecoration(
+                  icon: const Icon(
+                    Icons.perm_device_information,
+                    color: Colors.green,
+                  ),
+
+                  hintText: 'Enter your Phone Details',
+                  labelText: 'Phone',
                 ),
-              ),
-            ),
+              ),             
+
+
+
+            ],
           ),
-          Divider(
-            color: Colors.green[700],
-          ),
-        ],
-      ),
-    );
+        )
+      );
   }
+
+
+
+   _saveForm() {
+       final isValid = _formKeyValue.currentState.validate();
+        if(isValid) {
+          uploadImageAndSaveItemInfo();
+        } 
+        else return null;    
+       
+      }
+
+
   ClearFormInfo() {
     setState(() {
       file = null;
       _descriptionTextEdditingController.clear();
       _priceTextEdditingController.clear();
-      _titleTextEdditingController.clear();
+      //_titleTextEdditingController.clear();
+      selectedType=null;
       _shortInfoTextEdditingController.clear();
       _nearestTownTextEdditingController.clear();
       _quentityTextEdditingController.clear();
@@ -399,19 +436,22 @@ final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
 
       "status": "available",
       "thumbnailUrl": downloadUrl,
-      "title": _titleTextEdditingController.text.trim(),
+      //"title": _titleTextEdditingController.text.trim(),
+      "title": selectedType,
       "nearestTown":_nearestTownTextEdditingController.text.trim(),
       "quentity":_quentityTextEdditingController.text.trim(),
       "address":_addressTownTextEdditingController.text.trim(),
       "contactNo":_contactNoTextEdditingController.text.trim(),
-
     });
+
+
     setState(() {
       file = null;
       uploading = false;
       productId = DateTime.now().microsecondsSinceEpoch.toString();
       _descriptionTextEdditingController.clear();
-      _titleTextEdditingController.clear();
+     // _titleTextEdditingController.clear();
+      selectedType=null;
       _shortInfoTextEdditingController.clear();
       _priceTextEdditingController.clear();
       _quentityTextEdditingController.clear();
